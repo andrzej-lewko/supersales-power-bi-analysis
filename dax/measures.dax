@@ -1,0 +1,101 @@
+
+-- Supersales | Selected DAX Measures
+-- Revenue calculated from order positions
+
+Revenue =
+SUMX(
+    OrderPositions,
+    OrderPositions[item_quantity]
+        * RELATED(Products[product_price])
+        * (1 - OrderPositions[position_discount])
+)
+
+-- Sales value before discounts
+
+Sales Before Discount =
+SUMX(
+    OrderPositions,
+    OrderPositions[item_quantity]
+        * RELATED(Products[product_price])
+)
+
+-- Average processing time in days
+
+Average Processing Time =
+AVERAGEX(
+    Orders,
+    DATEDIFF(
+        Orders[order_date],
+        Orders[shipping_date],
+        DAY
+    )
+)
+
+-- Share of orders within the selected shipping mode
+
+Shipping Mode Share =
+DIVIDE(
+    [Order Count],
+    CALCULATE(
+        [Order Count],
+        ALL(Orders[shipping_mode])
+    )
+)
+
+
+-- Compound Annual Growth Rate
+-- Uses the last complete year available in the dataset
+
+Revenue CAGR =
+VAR MaxDataDate =
+    CALCULATE(
+        MAX(Orders[order_date]),
+        REMOVEFILTERS()
+    )
+VAR LastCompleteYear =
+    IF(
+        MONTH(MaxDataDate) = 12,
+        YEAR(MaxDataDate),
+        YEAR(MaxDataDate) - 1
+    )
+VAR SelectedFullYears =
+    FILTER(
+        ALLSELECTED('Calendar'[Year]),
+        'Calendar'[Year] <= LastCompleteYear
+    )
+VAR FirstYear =
+    MINX(
+        SelectedFullYears,
+        'Calendar'[Year]
+    )
+VAR LastYear =
+    MAXX(
+        SelectedFullYears,
+        'Calendar'[Year]
+    )
+VAR FirstRevenue =
+    CALCULATE(
+        [Revenue],
+        REMOVEFILTERS('Calendar'),
+        'Calendar'[Year] = FirstYear
+    )
+VAR LastRevenue =
+    CALCULATE(
+        [Revenue],
+        REMOVEFILTERS('Calendar'),
+        'Calendar'[Year] = LastYear
+    )
+VAR YearsCount =
+    LastYear - FirstYear
+RETURN
+    IF(
+        YearsCount > 0 &&
+        NOT ISBLANK(FirstRevenue) &&
+        NOT ISBLANK(LastRevenue),
+        POWER(
+            DIVIDE(LastRevenue, FirstRevenue),
+            1 / YearsCount
+        ) - 1,
+        BLANK()
+    )
+

@@ -23,6 +23,10 @@ The report consists of six pages:
 
 Each page focuses on a different aspect of the sales process, from overall performance and product categories to order processing, customer ratings and returns.
 
+The report also includes custom report page tooltips that provide additional context when hovering over selected visuals.
+
+These tooltips allow users to explore supporting information without leaving the current report page.
+
 ## Dataset and Data Preparation
 
 The project uses the Supersales dataset provided as part of the KajoData training materials.

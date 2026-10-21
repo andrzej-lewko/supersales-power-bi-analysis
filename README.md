@@ -27,6 +27,78 @@ The report also includes custom report page tooltips that provide additional con
 
 These tooltips allow users to explore supporting information without leaving the current report page.
 
+## Key Insights
+
+### Executive Overview
+
+- Revenue increased throughout the analysed period, reaching approximately **$2.16M** in total.
+- Revenue CAGR for the analysed period was approximately **22.4%**.
+- Revenue growth was accompanied by a strong increase in both the number of orders and the number of products sold.
+- At the same time, **Average Order Value declined from $477 in 2018 to $446 in 2021**.
+- This indicates that revenue growth was primarily **volume-driven rather than driven by increasing order value**.
+- Sales also show a visible seasonal pattern, with particularly strong results in **Q4**.
+- Revenue and Order Count on the Overview exclude orders recorded as returned, keeping the main sales KPIs methodologically consistent.
+
+### Product Analysis
+
+- Revenue increased across all three product categories over the analysed period.
+- **Technology became the strongest revenue-generating category**, reaching approximately **$270K in 2021**. Furniture temporarily led in 2019 but subsequently showed much slower revenue growth.
+- **Office Supplies generated the highest sales volume**, despite having the lowest Average Selling Price at approximately **$30–33**.
+- This suggests that Office Supplies revenue is primarily **volume-driven**.
+- Technology combines the **highest Average Selling Price with the lowest discount levels** and generates the highest revenue in the final analysed years.
+- Furniture receives the **highest average discounts**, but this does not translate into superior revenue performance. This makes the effectiveness of the discounting strategy in this category worth further investigation.
+- The available data is not sufficient to conclude that reducing discounts would automatically increase Furniture performance; margin and profitability data would be required for such a recommendation.
+
+### Revenue Analysis
+
+- Total analysed revenue amounts to approximately **$2.16M**.
+- **Technology generated the highest revenue — approximately $789K**, while Furniture and Office Supplies each generated approximately **$683–687K**.
+- Revenue shows clear seasonality. The strongest sales periods tend to occur toward the **end of the year**, while February and March are generally among the weaker months.
+- The increasing annual revenue trend combined with recurring seasonal peaks suggests that business growth did not eliminate the underlying seasonal sales pattern.
+- The decomposition tree shows that revenue concentration can be investigated further from **Category → Product Group → Product**, rather than treating category-level results as the end of the analysis.
+
+### Shipping Analysis
+
+- **California is the largest market** in both order volume and revenue, with approximately **970 orders** and **$435K in revenue**.
+- New York and Texas are the next largest states by order volume, but their revenue contribution differs substantially. This shows that **order volume alone does not fully explain revenue performance across states**.
+- **Standard Class dominates shipping activity**, generating approximately **$1.30M in revenue**, but it also has the longest average order processing time at approximately **5 days**.
+- Faster shipping modes account for considerably smaller revenue volumes.
+- The results show a clear relationship between shipping mode and processing time, but the dataset does not allow us to determine whether customers deliberately select slower shipping, whether this is driven by cost, or whether other operational factors are involved.
+
+### Returns Analysis
+
+- **101 orders were recorded as returned**, resulting in an overall **Return Rate of 2.09%** for the analysed period.
+- The calculated revenue associated with returned orders is approximately **$46.17K**. This represents the value of orders marked as returned and should **not be interpreted as a confirmed refund amount**.
+- Rated orders have a Return Rate of approximately **2.49%**, compared with approximately **2.02% for unrated orders**.
+- However, only **723 orders have customer ratings**, so the rated sample represents a relatively small subset of all orders.
+- A high customer rating does **not consistently correspond to a lower probability of return**. For example, the observed Return Rate varies considerably between individual rating levels.
+- Similarly, there is **no clear relationship between order processing time and Return Rate**. The rate does not consistently increase or decrease as processing time changes.
+- Therefore, the available data does not provide sufficient evidence to identify either customer rating or processing time as a meaningful driver of returns.
+- Because returns are recorded only at **order level**, the dataset also does not allow identification of the specific products, quantities or reasons responsible for a return.
+
+### Forecast Performance
+
+- Total Forecast for 2018–2021 was approximately **$2.48M**, compared with Actual Revenue of approximately **$2.16M**.
+- Overall **Forecast Achievement was approximately 87%**, corresponding to a negative variance of approximately **$316K**.
+- Before excluding orders recorded as returned, revenue would have been approximately **$2.21M**, corresponding to roughly **89% Forecast Achievement**. Returned orders therefore reduce achievement by approximately **1.9 percentage points**, but they do not explain the majority of the forecast shortfall.
+- Performance differs substantially by shipping mode:
+  - **Second Class: 101%** — slightly above forecast.
+  - **Same Day: 98%** — close to forecast.
+  - **First Class: 86%** — 14 percentage points below target.
+  - **Standard Class: 83%** — 17 percentage points below target.
+- Standard Class accounts for approximately **$267K of the total $316K negative variance**, meaning that roughly **85% of the overall forecast shortfall is concentrated in this shipping mode**.
+- Standard Class remained below forecast in **every analysed year**, suggesting a persistent pattern rather than a single-year deviation.
+- However, the available dataset does not establish whether this gap results from overly optimistic forecasts, weaker-than-expected sales or another business factor.
+- The interpretation of `cost_forecast` as a revenue/budget-like benchmark remains an **analytical assumption**, because its exact business definition is not documented.
+
+### Overall Conclusion
+
+Across 2018–2021, Supersales shows **strong revenue growth driven primarily by increasing sales volume**, while Average Order Value gradually declines. Technology emerges as the strongest revenue category, while Office Supplies relies heavily on volume. Sales exhibit clear seasonality, with stronger performance toward the end of the year.
+
+Returns represent a relatively small proportion of orders and slightly reduce overall forecast achievement, but the available ratings, processing-time and return data do not provide sufficient evidence to identify the underlying causes of returns.
+
+The largest gap between forecast and actual performance is concentrated in **Standard Class**, which accounts for the majority of the overall negative forecast variance and remains below forecast throughout the analysed period.
+
 ## Dataset and Data Preparation
 
 The project uses the Supersales dataset provided as part of the KajoData training materials.
@@ -62,15 +134,17 @@ The DAX measure uses `SUMX` to calculate revenue for individual order positions 
 
 One limitation is that product prices come from the product catalog rather than being stored separately at the time of each transaction. Therefore, the calculated historical revenue depends on the available catalog prices.
 
-### Time Analysis and Partial Data
+### Time Analysis and Data Coverage
 
-The dataset covers 2018–2022, but 2022 contains only partial data.
+The source dataset contains transactions from January 29, 2018 to January 25, 2022.
 
-Comparing an incomplete year directly with full previous years could lead to misleading conclusions.
+The report focuses on the analytical period from January 29, 2018 to December 31, 2021. Although transactions are available for 2022, they cover only the first 25 days of January. Including this period in annual or quarterly trend analysis would create misleading comparisons with substantially longer periods.
 
-To make this limitation visible, I created a DAX measure that displays a `2022 – partial data` notice whenever 2022 is included in the current filter context.
+For this reason, 2022 was intentionally excluded from the report analysis while the underlying source data was retained in the data model.
 
-I also took incomplete periods into account when calculating Revenue CAGR.
+The 2018 data begins on January 29. This starting point was retained as the beginning of the observed dataset and is documented as a data coverage limitation.
+
+Revenue CAGR is calculated using comparable annual periods and therefore does not include the partial 2022 period.
 
 ### Product Analysis
 
@@ -153,7 +227,7 @@ The forecast-versus-actual results should be interpreted with this limitation in
 The report includes measures such as:
 
 - Revenue
-- Orders Count
+- Order Count
 - Products Sold
 - Customers Count
 - Average Order Value
@@ -210,7 +284,7 @@ The results are based on the documented assumption about the meaning of the `cos
 
 Several characteristics of the dataset affected the analytical approach:
 
-1. **Partial year:** 2022 contains incomplete data and should not be compared directly with full years.
+1. **Data coverage:** The source dataset spans January 29, 2018 to January 25, 2022. The report analysis is limited to January 29, 2018–December 31, 2021. The partial 2022 period was intentionally excluded to avoid misleading annual and quarterly comparisons. The beginning of 2018 is also partial and is retained as the starting point of the observed dataset.
 2. **Historical prices:** Product prices are retrieved from the product catalog rather than stored at transaction level.
 3. **Missing ratings:** Only a subset of orders has a recorded customer rating. Rated orders may not be representative of all orders.
 4. **Order-level returns:** Return records do not identify returned products, quantities or confirmed refund amounts.

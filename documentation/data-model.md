@@ -82,6 +82,8 @@ The `cost_forecast` field is interpreted as a budget-like financial benchmark ra
 
 ### Time Analysis
 
-The Calendar table supports time-based analysis.
+The source dataset contains transactions from January 29, 2018 to January 25, 2022.
 
-The dataset contains partial data for 2022, which is explicitly indicated in the report.
+The report focuses on the analytical period from January 29, 2018 to December 31, 2021. The partial 2022 period was intentionally excluded from the report analysis to avoid misleading comparisons with substantially longer annual and quarterly periods.
+
+The underlying 2022 source data is retained in the data model.

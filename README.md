@@ -103,7 +103,7 @@ The largest gap between forecast and actual performance is concentrated in **Sta
 
 The project uses the Supersales dataset provided as part of the KajoData training materials.
 
-The source data consists of eight CSV files:
+The original source data consists of eight CSV files:
 
 - `orders.csv`
 - `order_positions.csv`
@@ -114,9 +114,15 @@ The source data consists of eight CSV files:
 - `order_returns.csv`
 - `cost_forecast.csv`
 
-I used Power Query to prepare the source files, correct data types and resolve data formatting issues, including decimal separators.
+I imported the source data into a MySQL database and created a relational schema using primary and foreign keys.
 
-I then worked with a relational data model in Power BI to analyze data across orders, order positions, customers, products, ratings and returns.
+Most tables are loaded directly from MySQL into Power BI. For transformations that were better handled at the source level, I created two SQL views used by the report.
+
+The `vw_products` view prepares the shortened product name used in the report. The `vw_orders` view adds location, order processing time, rating status and a processing-time label.
+
+Power Query is used mainly to connect Power BI to MySQL, select the required columns and assign appropriate data types.
+
+The Power BI model retains separate tables for orders, order positions, customers, products, product groups, ratings, returns and forecast data.
 
 An important part of the project was understanding the granularity of each table. Order positions represent individual products within an order, while ratings and returns are recorded at order level.
 
@@ -295,6 +301,8 @@ These limitations were considered when defining measures and interpreting the re
 
 ## Tools and Skills
 
+- MySQL
+- SQL
 - Power BI Desktop
 - Power Query
 - DAX
@@ -308,14 +316,15 @@ These limitations were considered when defining measures and interpreting the re
 ```text
 supersales-power-bi-analysis/
 │
-├── images/          # Report screenshots
+├── sql/             # MySQL schema and SQL views used by Power BI
 ├── dax/             # Selected DAX measures
 ├── documentation/   # Additional project documentation
+├── images/          # Report screenshots
 └── README.md
 ```
 
 ## Project Summary
 
-This project gave me practical experience in preparing data, working with a relational Power BI model and developing DAX measures.
+This project gave me practical experience in moving source data from CSV files into MySQL, preparing selected transformations in SQL and connecting the resulting data model to Power BI.
 
-It also showed me the importance of understanding data granularity, documenting assumptions and distinguishing calculated results from confirmed business facts.
+It also developed my experience with relational data modeling, DAX measures and the importance of understanding data granularity, documenting assumptions and distinguishing calculated results from confirmed business facts.

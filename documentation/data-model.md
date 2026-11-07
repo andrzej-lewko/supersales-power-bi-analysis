@@ -2,88 +2,53 @@
 
 ## Model Overview
 
-The Power BI model combines sales transactions, product information, customer data, ratings, returns and forecast data.
-
-It contains 12 tables, including a dedicated measure table and additional dimensions created for reporting.
+The Power BI model combines sales transactions with customer, product, rating, return and forecast data.
 
 ![Power BI Data Model](data-model.png)
 
-## Tables
+The original CSV files were imported into MySQL. Most tables are loaded directly from MySQL into Power BI, while two views handle transformations that were moved from Power BI to SQL:
 
-| Table           | Purpose                                                     |
-| --------------- | ----------------------------------------------------------- |
-| Customers       | Customer information                                        |
-| Orders          | Order details, dates, shipping and delivery information     |
-| OrderPositions  | Individual product positions within orders                  |
-| Products        | Product information and catalog prices                      |
-| ProductGroups   | Product groups and categories                               |
-| Ratings         | Customer ratings recorded at order level                    |
-| Returns         | Return records associated with orders                       |
-| Forecast        | Forecast values by year and shipping mode                   |
-| Calendar        | Date dimension used for time analysis                       |
-| DimYear         | Year dimension connecting calendar and forecast data        |
-| DimShippingMode | Shipping mode dimension connecting orders and forecast data |
-| \_Measure       | Dedicated table for DAX measures                            |
+- `vw_products` creates the shortened product name used in the report.
+- `vw_orders` adds location, processing time, rating status and the processing-time label.
+
+Power Query is still used for the connection, column selection and data types.
 
 ## Relationships
-
-The model uses relationships between transaction tables and their corresponding dimensions.
 
 The main sales structure is:
 
 `Customers → Orders → OrderPositions → Products → ProductGroups`
 
-Ratings and returns are connected to Orders.
+Ratings and Returns are connected to Orders because both are recorded at order level.
 
-The Calendar table is connected to Orders through order dates.
+The Calendar table is connected to Orders through the order date.
 
-Forecast data is connected to the reporting model through two shared dimensions:
+Forecast data has a different grain from the sales data, so `DimYear` and `DimShippingMode` are used as shared dimensions. This allows forecast and actual results to be compared by year and shipping mode.
 
-- DimYear
-- DimShippingMode
-
-These dimensions allow forecast values and actual sales to be compared by year and shipping mode.
+The `_Measure` table is used only to keep DAX measures in one place.
 
 ## Data Granularity
 
-The tables contain data at different levels of detail:
+The model contains data at several levels:
 
-- Orders: order level
-- OrderPositions: order-position level
-- Products: product level
-- Customers: customer level
-- Ratings: order-rating records
-- Returns: order-return records
-- Forecast: year and shipping mode
+- `Orders` – one row per order
+- `OrderPositions` – one row per product position within an order
+- `Products` – one row per product
+- `Customers` – one row per customer
+- `Ratings` – ratings recorded at order level
+- `Returns` – returns recorded at order level
+- `Forecast` – one row for a year and shipping mode combination
 
-Understanding these differences is important when defining DAX measures and avoiding incorrect aggregations.
+This distinction is important because measures such as revenue are calculated from order positions, while ratings and returns apply to the whole order.
 
-## Analytical Considerations
+## Notes and Limitations
 
-### Revenue
+Revenue is calculated from quantity, product catalog price and discount. Product prices are not stored separately for each historical transaction, so the calculation relies on the available catalog price.
 
-Revenue is calculated from order positions using quantity, product catalog price and discount.
+Returns are recorded only at order level. The data does not identify which products or quantities were returned and does not contain confirmed refund amounts.
 
-Product prices are not stored separately for each historical transaction.
+Ratings are available only for a subset of orders. Missing ratings are treated as missing information, not as a rating of zero.
 
-### Returns
+Forecast values are available for 2018–2021. The meaning of the `cost_forecast` field is not documented clearly enough to confirm that it represents shipping costs. In the report I treat it as a budget-like benchmark because its scale is comparable to sales revenue. This remains an analytical assumption.
 
-Returns are recorded at order level. The data does not identify individual returned products, quantities or confirmed refund amounts.
-
-### Ratings
-
-Ratings are available only for a subset of orders. Missing ratings are not interpreted as zero ratings.
-
-### Forecast
-
-Forecast values are available for 2018–2021.
-
-The `cost_forecast` field is interpreted as a budget-like financial benchmark rather than literal shipping costs. This is an analytical assumption based on the magnitude of the values, not a confirmed business definition.
-
-### Time Analysis
-
-The source dataset contains transactions from January 29, 2018 to January 25, 2022.
-
-The report focuses on the analytical period from January 29, 2018 to December 31, 2021. The partial 2022 period was intentionally excluded from the report analysis to avoid misleading comparisons with substantially longer annual and quarterly periods.
-
-The underlying 2022 source data is retained in the data model.
+The source contains transactions from January 29, 2018 to January 25, 2022. The report uses data through December 31, 2021 because 2022 contains only a partial month. The 2022 records remain in the source data.

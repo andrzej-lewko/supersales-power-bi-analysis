@@ -1,8 +1,10 @@
-# Supersales – Power BI Analysis
+# Supersales – SQL & Power BI Analysis
 
-Supersales is a Power BI portfolio project I developed as part of my data analytics training with KajoData.
+Supersales is a data analytics portfolio project developed as part of my training with KajoData.
 
-The report explores sales performance from several perspectives: revenue, products, shipping, returns and forecast performance. My focus was on preparing the source data, building a relational data model, creating DAX measures and understanding the limitations of the available data.
+The project combines **MySQL, SQL, Power BI, Power Query and DAX** to analyse sales performance, products, shipping, returns, forecast performance and customer behaviour.
+
+The original CSV data was imported into MySQL and organised into a relational schema. Selected transformations and customer segmentation are performed in SQL, while Power BI provides the semantic model, DAX calculations and interactive reporting.
 
 ## Live Report
 
@@ -12,7 +14,7 @@ The report explores sales performance from several perspectives: revenue, produc
 
 ![Executive Overview](images/executive-overview.png)
 
-The report consists of six pages:
+The report contains seven analytical pages:
 
 - Executive Overview
 - Product Analysis
@@ -20,235 +22,169 @@ The report consists of six pages:
 - Shipping Analysis
 - Returns Analysis
 - Forecast Performance
+- Customer Analysis
 
-Each page focuses on a different aspect of the sales process, from overall performance and product categories to order processing, customer ratings and returns.
-
-The report also includes custom report page tooltips that provide additional context when hovering over selected visuals.
-
-These tooltips allow users to explore supporting information without leaving the current report page.
+Custom report page tooltips provide additional context without leaving the current report page.
 
 ## Key Insights
 
-### Executive Overview
+### Sales Performance
 
-- Revenue increased throughout the analysed period, reaching approximately **$2.16M** in total.
-- Revenue CAGR for the analysed period was approximately **22.4%**.
-- Revenue growth was accompanied by a strong increase in both the number of orders and the number of products sold.
-- At the same time, **Average Order Value declined from $477 in 2018 to $446 in 2021**.
-- This indicates that revenue growth was primarily **volume-driven rather than driven by increasing order value**.
-- Sales also show a visible seasonal pattern, with particularly strong results in **Q4**.
-- Revenue and Order Count on the Overview exclude orders recorded as returned, keeping the main sales KPIs methodologically consistent.
+- Total analysed revenue for 2018–2021 was approximately **$2.16M**.
+- Revenue CAGR was approximately **22.4%**.
+- Revenue growth was accompanied by increasing order and product volume, while **Average Order Value declined from $477 in 2018 to $446 in 2021**.
+- This indicates that growth was primarily **volume-driven rather than driven by increasing order value**.
+- Sales show a recurring seasonal pattern, with stronger performance toward the end of the year.
 
-### Product Analysis
+### Products
 
-- Revenue increased across all three product categories over the analysed period.
-- **Technology became the strongest revenue-generating category**, reaching approximately **$270K in 2021**. Furniture temporarily led in 2019 but subsequently showed much slower revenue growth.
-- **Office Supplies generated the highest sales volume**, despite having the lowest Average Selling Price at approximately **$30–33**.
-- This suggests that Office Supplies revenue is primarily **volume-driven**.
-- Technology combines the **highest Average Selling Price with the lowest discount levels** and generates the highest revenue in the final analysed years.
-- Furniture receives the **highest average discounts**, but this does not translate into superior revenue performance. This makes the effectiveness of the discounting strategy in this category worth further investigation.
-- The available data is not sufficient to conclude that reducing discounts would automatically increase Furniture performance; margin and profitability data would be required for such a recommendation.
+- **Technology** was the strongest revenue-generating category at approximately **$789K**.
+- **Office Supplies** generated the highest unit volume despite having the lowest Average Selling Price.
+- Technology combined the highest Average Selling Price with relatively low discount levels.
+- **Furniture received the highest average discounts**, but this did not translate into superior revenue performance.
+- The available data does not contain margin information, so the impact of discounts on profitability cannot be determined.
 
-### Revenue Analysis
+### Shipping and Returns
 
-- Total analysed revenue amounts to approximately **$2.16M**.
-- **Technology generated the highest revenue — approximately $789K**, while Furniture and Office Supplies each generated approximately **$683–687K**.
-- Revenue shows clear seasonality. The strongest sales periods tend to occur toward the **end of the year**, while February and March are generally among the weaker months.
-- The increasing annual revenue trend combined with recurring seasonal peaks suggests that business growth did not eliminate the underlying seasonal sales pattern.
-- The decomposition tree shows that revenue concentration can be investigated further from **Category → Product Group → Product**, rather than treating category-level results as the end of the analysis.
-
-### Shipping Analysis
-
-- **California is the largest market** in both order volume and revenue, with approximately **970 orders** and **$435K in revenue**.
-- New York and Texas are the next largest states by order volume, but their revenue contribution differs substantially. This shows that **order volume alone does not fully explain revenue performance across states**.
-- **Standard Class dominates shipping activity**, generating approximately **$1.30M in revenue**, but it also has the longest average order processing time at approximately **5 days**.
-- Faster shipping modes account for considerably smaller revenue volumes.
-- The results show a clear relationship between shipping mode and processing time, but the dataset does not allow us to determine whether customers deliberately select slower shipping, whether this is driven by cost, or whether other operational factors are involved.
-
-### Returns Analysis
-
-- **101 orders were recorded as returned**, resulting in an overall **Return Rate of 2.09%** for the analysed period.
-- The calculated revenue associated with returned orders is approximately **$46.17K**. This represents the value of orders marked as returned and should **not be interpreted as a confirmed refund amount**.
-- Rated orders have a Return Rate of approximately **2.49%**, compared with approximately **2.02% for unrated orders**.
-- However, only **723 orders have customer ratings**, so the rated sample represents a relatively small subset of all orders.
-- A high customer rating does **not consistently correspond to a lower probability of return**. For example, the observed Return Rate varies considerably between individual rating levels.
-- Similarly, there is **no clear relationship between order processing time and Return Rate**. The rate does not consistently increase or decrease as processing time changes.
-- Therefore, the available data does not provide sufficient evidence to identify either customer rating or processing time as a meaningful driver of returns.
-- Because returns are recorded only at **order level**, the dataset also does not allow identification of the specific products, quantities or reasons responsible for a return.
+- **California** was the largest market in both order volume and revenue.
+- **Standard Class** generated approximately **$1.30M in revenue** and had the longest average processing time at approximately **5 days**.
+- **101 orders were recorded as returned**, resulting in a **2.09% Return Rate** for the analysed period.
+- The value associated with returned orders was approximately **$46.17K**, but this should not be interpreted as a confirmed refund amount.
+- The available data does not show a clear relationship between customer ratings, processing time and the probability of return.
 
 ### Forecast Performance
 
-- Total Forecast for 2018–2021 was approximately **$2.48M**, compared with Actual Revenue of approximately **$2.16M**.
-- Overall **Forecast Achievement was approximately 87%**, corresponding to a negative variance of approximately **$316K**.
-- Before excluding orders recorded as returned, revenue would have been approximately **$2.21M**, corresponding to roughly **89% Forecast Achievement**. Returned orders therefore reduce achievement by approximately **1.9 percentage points**, but they do not explain the majority of the forecast shortfall.
-- Performance differs substantially by shipping mode:
-  - **Second Class: 101%** — slightly above forecast.
-  - **Same Day: 98%** — close to forecast.
-  - **First Class: 86%** — 14 percentage points below target.
-  - **Standard Class: 83%** — 17 percentage points below target.
-- Standard Class accounts for approximately **$267K of the total $316K negative variance**, meaning that roughly **85% of the overall forecast shortfall is concentrated in this shipping mode**.
-- Standard Class remained below forecast in **every analysed year**, suggesting a persistent pattern rather than a single-year deviation.
-- However, the available dataset does not establish whether this gap results from overly optimistic forecasts, weaker-than-expected sales or another business factor.
-- The interpretation of `cost_forecast` as a revenue/budget-like benchmark remains an **analytical assumption**, because its exact business definition is not documented.
+- Forecast for 2018–2021 was approximately **$2.48M**, compared with actual revenue of approximately **$2.16M**.
+- Overall **Forecast Achievement was approximately 87%**, with a negative variance of approximately **$316K**.
+- Around **85% of the total negative variance** was concentrated in Standard Class.
+- Standard Class remained below forecast in every analysed year.
 
-### Overall Conclusion
+### Customer Analysis
 
-Across 2018–2021, Supersales shows **strong revenue growth driven primarily by increasing sales volume**, while Average Order Value gradually declines. Technology emerges as the strongest revenue category, while Office Supplies relies heavily on volume. Sales exhibit clear seasonality, with stronger performance toward the end of the year.
+Customers were segmented using an **RFM model (Recency, Frequency, Monetary)** calculated in SQL.
 
-Returns represent a relatively small proportion of orders and slightly reduce overall forecast achievement, but the available ratings, processing-time and return data do not provide sufficient evidence to identify the underlying causes of returns.
+- **Regular Customers** were the largest segment with **264 customers** and approximately **$640K in revenue**.
+- **Champions** represented 103 customers and generated approximately **$509K**.
+- Champions had the highest average order frequency and the highest average revenue per customer at approximately **$4.9K**.
+- **Inactive / Low Value** customers had the longest average time since their last order at approximately **387 days**.
+- **At Risk** customers averaged approximately **231 days since their last order**, while still generating relatively high revenue per customer.
 
-The largest gap between forecast and actual performance is concentrated in **Standard Class**, which accounts for the majority of the overall negative forecast variance and remains below forecast throughout the analysed period.
+The segmentation is descriptive and intended to support customer analysis and prioritisation rather than predict future customer behaviour.
 
-## Dataset and Data Preparation
+## Data Architecture
 
-The project uses the Supersales dataset provided as part of the KajoData training materials.
+The project evolved from a CSV-based Power BI report into a database-backed analytical solution:
 
-The original source data consists of eight CSV files:
+```text
+CSV source files
+       │
+       ▼
+MySQL source tables
+       │
+       ▼
+SQL preparation layer
+       │
+       ▼
+Power BI semantic model
+       │
+       ▼
+DAX measures
+       │
+       ▼
+Interactive report
+```
 
-- `orders.csv`
-- `order_positions.csv`
-- `customers.csv`
-- `products.csv`
-- `product_groups.csv`
-- `order_ratings.csv`
-- `order_returns.csv`
-- `cost_forecast.csv`
+The MySQL database contains separate tables for:
 
-I imported the source data into a MySQL database and created a relational schema using primary and foreign keys.
+- customers
+- orders
+- order positions
+- products
+- product groups
+- ratings
+- returns
+- forecast data
 
-Most tables are loaded directly from MySQL into Power BI. For transformations that were better handled at the source level, I created two SQL views used by the report.
+Primary and foreign keys are used to preserve the relationships and granularity of the source data.
 
-The `vw_products` view prepares the shortened product name used in the report. The `vw_orders` view adds location, order processing time, rating status and a processing-time label.
+### SQL Preparation Layer
 
-Power Query is used mainly to connect Power BI to MySQL, select the required columns and assign appropriate data types.
+Most source tables are loaded directly from MySQL into Power BI. Transformations that are more appropriate at source level are handled through SQL views.
 
-The Power BI model retains separate tables for orders, order positions, customers, products, product groups, ratings, returns and forecast data.
+`vw_products`
 
-An important part of the project was understanding the granularity of each table. Order positions represent individual products within an order, while ratings and returns are recorded at order level.
+- creates the shortened product name used in report visuals.
+
+`vw_orders`
+
+- creates the delivery location,
+- calculates order processing time,
+- identifies rated and unrated orders,
+- creates processing-time labels used in the report.
+
+`vw_customer_rfm`
+
+- aggregates customer activity,
+- calculates Recency, Frequency and Monetary values,
+- assigns RFM scores using `NTILE()` window functions,
+- classifies customers into business segments.
+
+Power Query is used mainly for connecting Power BI to MySQL, selecting the required fields and assigning appropriate data types.
 
 ## Analytical Approach
 
-### Revenue Calculation
+### Revenue
 
-Revenue is not stored directly in the order positions table.
-
-I calculated it using product price, quantity and discount:
+Revenue is calculated at order-position level:
 
 `Revenue = Quantity × Product Price × (1 - Discount)`
 
-The DAX measure uses `SUMX` to calculate revenue for individual order positions and `RELATED` to retrieve prices from the products table.
+DAX uses `SUMX` to iterate through order positions and `RELATED` to retrieve product prices.
 
-One limitation is that product prices come from the product catalog rather than being stored separately at the time of each transaction. Therefore, the calculated historical revenue depends on the available catalog prices.
+Orders recorded as returned are excluded from the main Revenue measure.
 
-### Time Analysis and Data Coverage
+### Analysis Period
 
-The source dataset contains transactions from January 29, 2018 to January 25, 2022.
+The source data covers **January 29, 2018 to January 25, 2022**.
 
-The report focuses on the analytical period from January 29, 2018 to December 31, 2021. Although transactions are available for 2022, they cover only the first 25 days of January. Including this period in annual or quarterly trend analysis would create misleading comparisons with substantially longer periods.
+The report focuses on **2018–2021** because 2022 contains only 25 days of data and would create misleading annual and quarterly comparisons.
 
-For this reason, 2022 was intentionally excluded from the report analysis while the underlying source data was retained in the data model.
+The beginning of 2018 is also partial and is retained as the start of the observed dataset.
 
-The 2018 data begins on January 29. This starting point was retained as the beginning of the observed dataset and is documented as a data coverage limitation.
+### RFM Customer Segmentation
 
-Revenue CAGR is calculated using comparable annual periods and therefore does not include the partial 2022 period.
+RFM segmentation is calculated in MySQL using:
 
-### Product Analysis
+- **Recency** – days since the customer's last order
+- **Frequency** – number of distinct orders
+- **Monetary** – revenue generated by the customer, excluding returned orders
 
-The product analysis focuses on four main measures:
+Customers receive scores from 1 to 5 using SQL `NTILE()` window functions.
 
-- Revenue
-- Products Sold
-- Average Discount
-- Average Selling Price
+The scores are used to create six customer segments:
 
-These measures help compare product categories in terms of sales value, volume, discount levels and average realized selling price.
+- Champions
+- Loyal Customers
+- At Risk
+- New / Potential
+- Inactive / Low Value
+- Regular Customers
 
-### Shipping Analysis
+The resulting SQL view is loaded into Power BI for segment-level analysis and visualisation.
 
-The shipping analysis compares order volume and revenue across delivery states and shipping modes.
+### Forecast
 
-I also calculated average order processing time using the difference between order date and shipping date.
+The `cost_forecast` table contains forecast values for 2018–2021 by shipping mode.
 
-This allows processing times to be compared across shipping modes.
+Because the exact business definition of `cost_forecast` is not documented, I treat it as a **budget-like financial benchmark** rather than confirmed shipping cost.
 
-### Returns Analysis
-
-Returns are recorded at order level rather than individual product level.
-
-The dataset identifies orders with a recorded return, but it does not specify which products were returned, their quantities or whether the entire order was refunded.
-
-For this reason, the report does not assume that the full value of a returned order represents an actual refund.
-
-The analysis includes:
-
-- Returned Orders
-- Return Rate
-- Value of Returned Orders
-- Return Rate by Customer Rating
-- Return Rate: Rated vs Unrated Orders
-- Return Rate by Processing Time
-
-The KPI named `Value of Returned Orders` represents the calculated revenue associated with orders that have a recorded return. It should not be interpreted as a confirmed refund amount.
-
-Customer ratings are available only for a subset of orders. Missing ratings are treated as missing information rather than a rating of zero.
-
-The relationships between ratings, processing time and returns are descriptive and do not establish causation.
-
-### Forecast Analysis and Business Assumption
-
-The `cost_forecast` table contains forecast values for 2018–2021, broken down by shipping mode.
-
-Although the source column is named `cost_forecast`, I decided to treat these values as a budget-like financial benchmark rather than literal shipping costs.
-
-This decision was based on the scale of the figures:
-
-- Total forecast: approximately $2.48 million
-- Actual revenue for the comparable period: approximately $2.16 million
-
-The forecast values are comparable in magnitude to total sales revenue. This raised doubts about interpreting them as shipping costs alone.
-
-For the purpose of this analysis, I therefore compared the forecast values with actual revenue and used the neutral label **Forecast** in the report.
-
-The analysis includes:
-
-- Forecast
-- Actual
-- Forecast Variance
-- Forecast Achievement %
-
-The calculations are:
+The main calculations are:
 
 `Forecast Variance = Actual - Forecast`
 
 `Forecast Achievement % = Actual / Forecast`
 
-The comparison covers 2018–2021 because forecast values are not available for 2022.
-
-**Important:** Treating `cost_forecast` as a budget-like benchmark is my analytical assumption, not a confirmed business definition. The available documentation does not clearly establish whether these values represent a sales budget, another financial forecast or a different cost category.
-
-The forecast-versus-actual results should be interpreted with this limitation in mind.
-
-## Selected DAX Measures
-
-The report includes measures such as:
-
-- Revenue
-- Order Count
-- Products Sold
-- Customers Count
-- Average Order Value
-- Average Selling Price
-- Average Discount
-- Revenue CAGR
-- Returned Orders
-- Return Rate
-- Average Order Processing Time
-- Forecast Variance
-- Forecast Achievement %
-
-I used DAX iterator functions such as `SUMX` and `AVERAGEX`, along with functions including `CALCULATE`, `DIVIDE`, `ALL`, `ALLSELECTED` and `REMOVEFILTERS`.
-
-An important part of the work was understanding filter context and ensuring that measures produced meaningful results across different report selections.
+This interpretation is an analytical assumption and would require confirmation from the data owner in a real business environment.
 
 ## Report Pages
 
@@ -262,21 +198,19 @@ Analysis of revenue, products sold, average discount and average selling price a
 
 ![Revenue Analysis](images/revenue-analysis.png)
 
-Revenue analysis using a decomposition tree and monthly revenue trend.
-
-The decomposition tree allows exploration from product category through product group down to individual products.
+Revenue trends and an interactive decomposition tree allowing analysis from **Category → Product Group → Product**.
 
 ### Shipping Analysis
 
 ![Shipping Analysis](images/shipping-analysis.png)
 
-Comparison of orders and revenue by state, revenue by shipping mode and average order processing time.
+Analysis of order volume and revenue by state and shipping mode, together with average order processing time.
 
 ### Returns Analysis
 
 ![Returns Analysis](images/returns-analysis.png)
 
-Analysis of return rates by customer rating and order processing time, including a comparison between rated and unrated orders.
+Analysis of return rates by customer rating and processing time, including rated versus unrated orders.
 
 ### Forecast Performance
 
@@ -284,29 +218,37 @@ Analysis of return rates by customer rating and order processing time, including
 
 Comparison of forecast and actual revenue by year and shipping mode, including variance and achievement percentage.
 
-The results are based on the documented assumption about the meaning of the `cost_forecast` values.
+### Customer Analysis
 
-## Data Limitations and Assumptions
+![Customer Analysis](images/customer-analysis.png)
 
-Several characteristics of the dataset affected the analytical approach:
+RFM-based customer segmentation comparing customer count, revenue, average order frequency, recency and average revenue per customer.
 
-1. **Data coverage:** The source dataset spans January 29, 2018 to January 25, 2022. The report analysis is limited to January 29, 2018–December 31, 2021. The partial 2022 period was intentionally excluded to avoid misleading annual and quarterly comparisons. The beginning of 2018 is also partial and is retained as the starting point of the observed dataset.
-2. **Historical prices:** Product prices are retrieved from the product catalog rather than stored at transaction level.
-3. **Missing ratings:** Only a subset of orders has a recorded customer rating. Rated orders may not be representative of all orders.
-4. **Order-level returns:** Return records do not identify returned products, quantities or confirmed refund amounts.
-5. **Forecast coverage:** Forecast data is available only for 2018–2021.
-6. **Forecast interpretation:** The business meaning of `cost_forecast` is not clearly documented. I treated it as a budget-like benchmark because its magnitude appears inconsistent with shipping costs alone. This assumption would require confirmation from the data owner.
+Interactive report-page tooltips explain the RFM methodology and individual segment rules.
 
-These limitations were considered when defining measures and interpreting the results.
+## Data Limitations
+
+The analysis should be interpreted with several limitations in mind:
+
+1. **Data coverage** – 2022 contains only 25 days and is excluded from the main analysis. The beginning of 2018 is also partial.
+2. **Historical prices** – product prices come from the product catalogue rather than transaction-level historical prices.
+3. **Ratings** – customer ratings are available only for a subset of orders.
+4. **Returns** – returns are recorded at order level and do not identify specific returned products, quantities or confirmed refund amounts.
+5. **Forecast definition** – the exact business meaning of `cost_forecast` is not documented.
+6. **RFM segmentation** – segments are based on relative scoring and defined analytical rules rather than externally validated customer classifications.
 
 ## Tools and Skills
 
 - MySQL
 - SQL
-- Power BI Desktop
+- SQL Views
+- CTEs
+- Window Functions
+- Power BI
 - Power Query
 - DAX
 - Relational Data Modeling
+- RFM Customer Segmentation
 - Data Visualization
 - KPI Design
 - Variance Analysis
@@ -316,15 +258,30 @@ These limitations were considered when defining measures and interpreting the re
 ```text
 supersales-power-bi-analysis/
 │
-├── sql/             # MySQL schema and SQL views used by Power BI
-├── dax/             # Selected DAX measures
-├── documentation/   # Additional project documentation
-├── images/          # Report screenshots
+├── sql/
+│   ├── 01_create_tables.sql
+│   └── 03_power_bi_views.sql
+│
+├── dax/
+├── documentation/
+├── images/
+│   ├── executive-overview.png
+│   ├── product-analysis.png
+│   ├── revenue-analysis.png
+│   ├── shipping-analysis.png
+│   ├── returns-analysis.png
+│   ├── forecast-performance.png
+│   └── customer-analysis.png
+│
 └── README.md
 ```
 
 ## Project Summary
 
-This project gave me practical experience in moving source data from CSV files into MySQL, preparing selected transformations in SQL and connecting the resulting data model to Power BI.
+This project demonstrates the development of a small end-to-end analytical solution:
 
-It also developed my experience with relational data modeling, DAX measures and the importance of understanding data granularity, documenting assumptions and distinguishing calculated results from confirmed business facts.
+**CSV → MySQL → SQL → Power BI → DAX → interactive analysis**
+
+It gave me practical experience in relational data modeling, SQL views, CTEs and window functions, source-level data transformation, RFM customer segmentation, DAX measures and business-oriented data analysis.
+
+A key part of the project was not only calculating KPIs, but also understanding data granularity, documenting assumptions and distinguishing analytical findings from conclusions that the available data cannot support.

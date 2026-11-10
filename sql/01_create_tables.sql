@@ -2,7 +2,10 @@ CREATE DATABASE IF NOT EXISTS supersales;
 
 USE supersales;
 
--- Klienci
+
+/* ============================================================
+   CUSTOMERS
+   ============================================================ */
 
 CREATE TABLE customers (
     customer_id VARCHAR(50) PRIMARY KEY,
@@ -10,7 +13,9 @@ CREATE TABLE customers (
 );
 
 
--- Grupy produktów
+/* ============================================================
+   PRODUCT GROUPS
+   ============================================================ */
 
 CREATE TABLE product_groups (
     group_id VARCHAR(50) PRIMARY KEY,
@@ -19,7 +24,9 @@ CREATE TABLE product_groups (
 );
 
 
--- Produkty
+/* ============================================================
+   PRODUCTS
+   ============================================================ */
 
 CREATE TABLE products (
     product_id VARCHAR(50) PRIMARY KEY,
@@ -30,7 +37,9 @@ CREATE TABLE products (
 );
 
 
--- Zamówienia
+/* ============================================================
+   ORDERS
+   ============================================================ */
 
 CREATE TABLE orders (
     order_id VARCHAR(50) PRIMARY KEY,
@@ -45,7 +54,9 @@ CREATE TABLE orders (
 );
 
 
--- Pozycje zamówień
+/* ============================================================
+   ORDER POSITIONS
+   ============================================================ */
 
 CREATE TABLE order_positions (
     order_position_id VARCHAR(50) PRIMARY KEY,
@@ -58,7 +69,9 @@ CREATE TABLE order_positions (
 );
 
 
--- Oceny zamówień
+/* ============================================================
+   ORDER RATINGS
+   ============================================================ */
 
 CREATE TABLE order_ratings (
     order_id VARCHAR(50) PRIMARY KEY,
@@ -67,7 +80,9 @@ CREATE TABLE order_ratings (
 );
 
 
--- Zwroty
+/* ============================================================
+   ORDER RETURNS
+   ============================================================ */
 
 CREATE TABLE order_returns (
     order_id VARCHAR(50) PRIMARY KEY,
@@ -76,7 +91,9 @@ CREATE TABLE order_returns (
 );
 
 
--- Forecast
+/* ============================================================
+   COST FORECAST
+   ============================================================ */
 
 CREATE TABLE cost_forecast (
     cost_forecast_id VARCHAR(50) PRIMARY KEY,

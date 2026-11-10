@@ -260,7 +260,7 @@ supersales-power-bi-analysis/
 │
 ├── sql/
 │   ├── 01_create_tables.sql
-│   └── 03_power_bi_views.sql
+│   └── 02_power_bi_views.sql
 │
 ├── dax/
 ├── documentation/
